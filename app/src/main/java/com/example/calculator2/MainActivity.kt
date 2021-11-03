@@ -8,26 +8,22 @@ import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private var result: String? = null
-
     companion object {
-        private const val RESULT_KEY = "result_key"
+        private const val RESULT_KEY = "RESULT_KEY"
+        private const val MATH_OPERATIONS_KEY = "MATH_OPERATIONS_KEY"
     }
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
-        init()
-        if (result?.isNotEmpty() == true) {
-            binding.mathOperations.text = result
-        }
+        setListeners()
     }
 
-    private fun init() {
+    private fun setListeners() {
         binding.buttonZero.setOnClickListener {
             setTextFields("0")
         }
@@ -56,10 +52,9 @@ class MainActivity : AppCompatActivity() {
             setTextFields("8")
         }
         binding.buttonNine.setOnClickListener {
-            setTextFields("1")
+            setTextFields("9")
         }
         binding.subtraction.setOnClickListener {
-
             setTextFields("-")
         }
         binding.addition.setOnClickListener {
@@ -94,8 +89,19 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        val result = binding.mathOperations.text.toString()
+        val mathOperations = binding.mathOperations.text.toString()
+        val result = binding.resultText.text.toString()
+        outState.putString(MATH_OPERATIONS_KEY, mathOperations)
         outState.putString(RESULT_KEY, result)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        val mathOperations = savedInstanceState.getString(MATH_OPERATIONS_KEY)
+        val result = savedInstanceState.getString(RESULT_KEY)
+        binding.mathOperations.text = mathOperations
+        binding.resultText.text = result
     }
 
     private fun setTextFields(str: String) {
