@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val expression = ExpressionBuilder(binding.mathOperations.text.toString()).build()
                 val result = expression.evaluate()
-                val longRes = result.toLong()
-                if (result == longRes.toDouble()) {
-                    binding.resultText.text = longRes.toString()
+                val longResult = result.toLong()
+                if (result == longResult.toDouble()) {
+                    binding.resultText.text = longResult.toString()
                 } else {
                     binding.resultText.text = result.toString()
                 }
